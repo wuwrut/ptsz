@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,24 +23,19 @@ namespace ptsz1
 
         static void Main(string[] args)
         {
-            string file_name = args[1];
-            int k = int.Parse(args[2]) - 1; //k starts from 1
-            float h = float.Parse(args[3]);
+            string file_name = args[0];
+            int k = int.Parse(args[1]) - 1; //k starts from 1
+            float h = float.Parse(args[2], CultureInfo.InvariantCulture);
 
             Parser parser = new Parser();
-            var raw_data = parser.ParseInputFile("wut.txt");
+            var raw_data = parser.ParseInputFile(file_name);
             var instances = GetInstances(raw_data);
 
-            const float h = 0.8f;
+            ProblemInstance instance = instances[k];
 
-            foreach(var instance in instances)
-            {
-                var result = solve(instance, h);
-                System.Console.WriteLine(calculate_result(instance, h, result));
-                System.Console.WriteLine(string.Join(" ", result.Select(x => string.Format("t{0}", x))));
-            }
-            
-            int a = 0;
+            var result = solve(instance, h);
+            Console.WriteLine(calculate_result(instance, h, result));
+            Console.WriteLine(string.Join(" ", result.Select(x => string.Format("t{0}", x))));
         }
 
         static List<ProblemInstance> GetInstances(List<int[]> rawData)
