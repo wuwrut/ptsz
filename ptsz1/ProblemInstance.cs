@@ -20,7 +20,7 @@ namespace ptsz1
 
         public int CalculateDeadline(float h)
         {
-            return (int)Math.Round(tasks.Sum(x => x[0]) * h);
+            return (int)(tasks.Sum(x => x[0]) * h);
         }
 
         public double CalculateResult(float h, IEnumerable<int> order)
@@ -34,12 +34,11 @@ namespace ptsz1
                 int task_end = current_time + tasks[task_num][0];
 
                 if (task_end < deadline)
-                    cost += (deadline - current_time) * tasks[task_num][1];
+                    cost += (deadline - task_end) * tasks[task_num][1];
 
-                else if (task_end > deadline)
-                    cost += (current_time - deadline) * tasks[task_num][2];
+                else
+                    cost += (task_end - deadline) * tasks[task_num][2];
 
-                // if task_end == deadline, we pay no penalty
                 current_time += tasks[task_num][0];
             }
 
